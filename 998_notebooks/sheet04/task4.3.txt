@@ -1,0 +1,181 @@
+https://mybinder.org/v2/gh/ulges/statistik20-notebooks.git/main
+
+#Task1
+import numpy as np
+
+def leastsquares(x,y):
+    covariance = np.cov(x, y, bias=True)[0][1]
+    var_of_x = x.var()
+    a = covariance / var_of_x
+    b = y.mean() - a * x.mean()
+    return a,b
+
+#testing
+#x = np.array([1, 2, 3, 4, 5])
+#y = np.array([10, 18, 35, 40, 55])
+#leastsquares(x, y)
+
+#Note: Here we have used the covariance based on the formulas of the lecture
+#bias = True
+
+
+#Task2
+
+import matplotlib.pyplot as plt
+
+def plot(x, y, a, b):
+    """ 
+          ! DO NOT TOUCH !
+
+          This method plots the 2D point cloud (x,y) in red, 
+          and the fitted line (a,b) in orange.
+    """
+    plt.plot(x, y, 'o', color='red', markersize=5)
+    xmin = np.min(x)-1
+    xmax = np.max(x)+1
+    ymin = np.min(y)-1
+    ymax = np.max(y)+1    
+    plt.axis([xmin,xmax,ymin,ymax]) # set range to plot
+    xticks = np.arange(xmin, xmax, (xmax-xmin)/1000.)
+    plt.plot(xticks, a*xticks+b, '-', color='orange')
+    
+    plt.grid(True)
+    plt.show()    
+    
+x = np.array([1,2,3,4])
+y = np.array([1,2,5,7])
+plot(x, y, leastsquares(x, y)[0], leastsquares(x, y)[1])
+
+
+#Task 3
+
+import pandas
+
+cars = pandas.read_csv('cars.csv')
+
+# Wir geben die Namen der Spalten/Merkmale aus.
+columns = cars.columns
+for i,col in enumerate(columns):
+    print('%.2d : %s' %(i,col))
+    
+# Wir konvertieren die Daten in ein Numpy-Array.
+data = cars.values.astype('float')
+
+# Wir filtern alle Autos die teurer als 50.000 EUR sind.
+data = data[data[:,0]<50000,:]
+# Wir filtern alle Autos die billiger als 1.000 EUR sind.
+data = data[data[:,0]>=1000,:]
+
+
+# Task4
+#declaring variables
+x = np.array(cars.dollar_price[0:10])
+y = np.array(cars.kilometer[0:10])
+
+#calling functions
+leastsquares(x, y)
+plot(x, y, leastsquares(x, y)[0], leastsquares(x, y)[1])
+
+
+#Task5
+
+#declaring variables
+x = np.array(cars.kilometer[0:])
+y = np.array(cars.dollar_price[0:])
+a = leastsquares(x, y)[0]
+b = leastsquares(x, y)[1]
+
+#declaring function
+def error(ypredicted, yreal):
+    return (ypredicted / yreal) - 1
+
+#Please select the index of the auto
+auto_index = 50
+
+#Calculations
+yreal = cars.dollar_price[auto_index]
+ypredicted = a * cars.kilometer[auto_index] + b
+print(yreal)
+print(ypredicted)
+print(error(yreal, ypredicted))
+
+
+#Task6
+###Kilometers###
+
+#declaring variables
+x = np.array(cars.kilometer[0:])
+y = np.array(cars.dollar_price[0:])
+a = leastsquares(x, y)[0]
+b = leastsquares(x, y)[1]
+
+#declaring function
+def error(ypredicted, yreal):
+    return (ypredicted / yreal) - 1
+
+#Please select the index of the auto
+auto_index = 50
+
+#Calculations
+yreal = cars.dollar_price[auto_index]
+ypredicted = a * cars.kilometer[auto_index] + b
+print("Analyzing km")
+print(yreal)
+print(ypredicted)
+print(error(yreal, ypredicted))
+
+###Registration Year
+
+#declaring variables
+x = np.array(cars.registration_year[0:])
+y = np.array(cars.dollar_price[0:])
+a = leastsquares(x, y)[0]
+b = leastsquares(x, y)[1]
+
+#declaring function
+def error(ypredicted, yreal):
+    return (ypredicted / yreal) - 1
+
+#Please select the index of the auto
+auto_index = 50
+
+#Calculations
+yreal = cars.dollar_price[auto_index]
+ypredicted = a * cars.registration_year[auto_index] + b
+print("Analyzing registration year")
+print(yreal)
+print(ypredicted)
+print(error(yreal, ypredicted))
+
+
+###Power Ps
+
+#declaring variables
+x = np.array(cars.power_ps[0:])
+y = np.array(cars.dollar_price[0:])
+a = leastsquares(x, y)[0]
+b = leastsquares(x, y)[1]
+
+#declaring function
+def error(ypredicted, yreal):
+    return (ypredicted / yreal) - 1
+
+#Please select the index of the auto
+auto_index = 50
+
+#Calculations
+yreal = cars.dollar_price[auto_index]
+ypredicted = a * cars.power_ps[auto_index] + b
+print("Analyzing Power Ps")
+print(yreal)
+print(ypredicted)
+print(error(yreal, ypredicted))
+
+#Conclusion: In this example, we have analyzed the auto 51 (auto_index = 50).
+#We see that in this case, km is the best explicative variable
+#because real and predicted are almost the same
+
+
+
+
+

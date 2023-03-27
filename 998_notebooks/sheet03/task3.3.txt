@@ -1,0 +1,45 @@
+#task1
+print(cars.dollar_price.mean())
+print(cars.dollar_price.median())
+#Durschnitt > Median in diesem Fall
+
+
+#task2
+prices = cars.dollar_price
+# display histogram of prices
+import matplotlib.pyplot as plt
+plt.hist(prices)
+plt.show()
+#1 * 1e7 = 1'000.000 Es gibt ein auto, das 999.999 kostet
+
+#task3
+prices = cars.dollar_price
+import matplotlib.pyplot as plt
+plt.hist(prices, bins=1000, range=(0, 100000))
+plt.show()
+
+
+#task 4
+cars = cars.drop(cars.columns[list(range(16,55))], axis=1)
+cars
+
+#task 5
+print(cars[cars.dollar_price == cars.dollar_price.min()])
+#Das auto ist kapput, alt (1996) und war viel unterwegs (150000km)
+
+#task 6
+print(cars[cars.damage__ja == cars.damage__nein])
+
+#task 7
+prices = cars.dollar_price
+km = cars.kilometer
+
+import matplotlib.pyplot as plt
+
+# plot km against price
+plt.plot(prices, km, 'o', markersize=3)
+plt.xlim([0,20000])
+plt.ylim([0,200000])
+plt.xlabel('price')
+plt.ylabel('km')
+plt.show()
